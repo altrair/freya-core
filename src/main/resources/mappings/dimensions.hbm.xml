@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<hibernate-mapping package="core.entities">
+
+    <class name="Dimension" table="dimensions">
+        <id name="id" column="id_dim">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+    </class>
+
+</hibernate-mapping>

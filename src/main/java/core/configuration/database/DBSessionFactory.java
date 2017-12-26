@@ -1,0 +1,63 @@
+package core.configuration.database;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.Properties;
+
+/**
+ * Created by Altair on 19.12.2017.
+ */
+@Configuration
+@EnableTransactionManagement
+@PropertySource("classpath:db.properties")
+public class DBSessionFactory {
+
+    @Autowired
+    @Qualifier("dataSource")
+    private DataSource dataSource;
+
+    @Value("${hibernate.dialect}")
+    private String dialect;
+
+    @Value("${hibernate.show_sql}")
+    private String showSql;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String hbm2ddlAuto;
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
+        localSessionFactoryBean.setDataSource(dataSource);
+        localSessionFactoryBean.setHibernateProperties(new Properties() {{
+            setProperty("hibernate.dialect", dialect);
+            setProperty("hibernate.show_sql", showSql);
+            setProperty("hibernate.hbm2ddl.auto", hbm2ddlAuto);
+        }});
+        localSessionFactoryBean.setMappingResources("mappings/dimensions.hbm.xml", "mappings/categories.hbm.xml",
+          "mappings/ingredientEntries.hbm.xml", "mappings/ingredients.hbm.xml", "mappings/recipes.hbm.xml",
+          "mappings/places.hbm.xml");
+        return localSessionFactoryBean;
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager() {
+        return dataSourceTransactionManager();
+    }
+
+    private DataSourceTransactionManager dataSourceTransactionManager() {
+        DataSourceTransactionManager txManager = new DataSourceTransactionManager();
+        txManager.setDataSource(dataSource);
+        return txManager;
+    }
+}

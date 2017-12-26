@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="core.entities">
+
+    <class name="IngredientEntry" table="ingredient_entry">
+        <id name="id" column="id_entry">
+            <generator class="identity"/>
+        </id>
+        <many-to-one name="dimension" class="core.entities.Dimension" fetch="select" lazy="false">
+            <column name="id_dim" not-null="true" />
+        </many-to-one>
+        <many-to-one name="ingredient" class="core.entities.Ingredient" fetch="select" lazy="false">
+            <column name="id_ingredient" not-null="true" />
+        </many-to-one>
+        <property name="amount" column="amount" type="double"/>
+        <set name="recipes" table="ingredient_recipe_map" inverse="true" lazy="false" fetch="select">
+            <key column="id_entry" not-null="true"/>
+            <many-to-many entity-name="core.entities.Recipe">
+                <column name="id_recipe" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+
+</hibernate-mapping>

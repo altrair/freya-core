@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<hibernate-mapping package="core.entities">
+
+    <class name="Category" table="categories">
+        <id name="id" column="id_category">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <set name="recipes" table="recipes" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="id_category" not-null="true" />
+            </key>
+            <one-to-many class="core.entities.Recipe" />
+        </set>
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<hibernate-mapping package="core.entities">
+
+    <class name="Ingredient" table="ingredients">
+        <id name="id" column="id_ingredient">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <property name="calories" column="calories" type="long"/>
+    </class>
+
+</hibernate-mapping>

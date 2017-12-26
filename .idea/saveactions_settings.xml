@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SaveActionSettings">
+    <option name="actions">
+      <set>
+        <option value="reformat" />
+        <option value="reformatChangedCode" />
+        <option value="rearrange" />
+        <option value="explicitTypeCanBeDiamond" />
+        <option value="unnecessarySemicolon" />
+        <option value="missingOverrideAnnotation" />
+      </set>
+    </option>
+    <option name="inclusions">
+      <set>
+        <option value=".*\.java" />
+      </set>
+    </option>
+  </component>
+</project>
